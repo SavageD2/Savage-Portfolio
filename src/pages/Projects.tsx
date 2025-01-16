@@ -7,9 +7,9 @@ const Projects: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div className="bg-white p-6 rounded-lg shadow-lg">
           <img src="projet1.jpg" alt="Projet 1" className="w-full h-48 object-cover rounded-lg mb-4"/>
-          <h3 className="text-2xl font-semibold mb-2">Projet 1</h3>
-          <p className="text-gray-700 mb-4">Description du projet, ce que tu as créé et les technologies utilisées.</p>
-          <a href="https://github.com" className="text-blue-600 hover:underline">Voir sur GitHub</a>
+          <h3 className="text-2xl font-semibold mb-2">To-Do List</h3>
+          <p className="text-gray-700 mb-4">Projet To-Do List réalisé avec React</p>
+          <a href="https://savaged2.github.io/TodoList/" className="text-blue-600 hover:underline">Voir sur GitHub</a>
         </div>
       </div>
     </section>
