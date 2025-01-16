@@ -1,51 +1,103 @@
-import React from "react";
+import React, { useState } from "react";
+import emailjs from "emailjs-com";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Contact: React.FC = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const templateParams = {
+      from_name: formData.name,
+      from_email: formData.email,
+      message: formData.message,
+    };
+
+    emailjs
+      .send(
+        "service_4mygjpr",
+        "template_mwk5l7k",
+        templateParams,
+        "XwX7k0ltcs1CnLIfH"
+      )
+      .then(
+        () => {
+          toast.success("Message envoyé avec succès !");
+          setFormData({
+            name: "",
+            email: "",
+            message: "",
+          });
+        },
+        () => {
+          toast.error("Une erreur est survenue, veuillez réessayer.");
+        }
+      );
+  };
+
   return (
     <section className="container mx-auto py-10">
-      <h2 className="text-3xl font-bold mb-4 text-center">Contactez-moi</h2>
-      <p className="text-center mb-6">N'hésitez pas à me contacter via le formulaire ci-dessous.</p>
+      <h2 className="text-4xl font-bold text-center text-blue-600 mb-8">Contactez-moi</h2>
       
-      <div className="max-w-lg mx-auto">
-        <form className="bg-white p-6 rounded-lg shadow-lg">
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-gray-700">Nom</label>
-            <input
-              type="text"
-              id="name"
-              placeholder="Votre nom"
-              className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700">Email</label>
-            <input
-              type="email"
-              id="email"
-              placeholder="Votre email"
-              className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label htmlFor="message" className="block text-gray-700">Message</label>
-            <textarea
-              id="message"
-              placeholder="Votre message"
-              rows={4}
-              className="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            ></textarea>
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-transform duration-300 transform hover:scale-105"
-          >
-            Envoyer
-          </button>
-        </form>
-      </div>
+      <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-6 rounded-lg shadow-lg">
+        <div className="mb-4">
+          <label htmlFor="name" className="block text-gray-700">Nom</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700">Email</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="message" className="block text-gray-700">Message</label>
+          <textarea
+            id="message"
+            name="message"
+            value={formData.message}
+            onChange={handleChange}
+            required
+            rows={4}
+            className="w-full p-3 border border-gray-300 rounded-lg"
+          />
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white p-3 rounded-lg hover:bg-blue-700 transition duration-300"
+        >
+          Envoyer
+        </button>
+      </form>
+      <ToastContainer />
     </section>
   );
 };
